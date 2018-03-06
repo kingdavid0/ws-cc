@@ -1,0 +1,77 @@
+Assumptions:
+Input is a string of ranges as defined "[<number0>,<number1>] [<number2>,<number3>] <...> [<number(m-1)>,<number(m)>]".
+	Where m is 2n and n is the number of ranges in the input.
+Each set of ranges in the string will be separated by a single space after the closing bracket.  Final range in an input string may or may not have an end space.
+Each range will be only be accepted if first number in the range is less than or equal to second number in the range.
+All numbers will only be accepted for a given range if it is five characters long, all characters are an integer (from 0 to 9), and may contain leading zeros.
+If an unexpected value is found within the input string, the string will be rejected with an error given.
+
+Flow:
+Input string will be processed into a list of Range Objects (Input List).
+	If input string is not in the expected format, processing will stop and return an error.
+	Any range that does not have acceptable values will not be put in the Input List.
+		(These can be stored and returned later if desired with a reason for rejection).
+
+(Pseudo Code for requested algorithm)
+A loop will start, comparing the Ranges of the Input List to the Output List.  Output List will have no values when the algorithm starts.
+	Each Input Range will compared to each Output Range.  The Output List will grow as the Input List is iterated through.
+		This gives the algorithm approximately in its worse case O(N squared) and in its best case O(N) for run time where N is the number of Input Ranges.
+	Inputs:
+		Input Range: <numIL, numIU>
+		Output Range: <numOL, numOU>
+	Cases (Run on each Input Range):
+		A: If there is no Output Range, insert Input Range as new Range for Output List.
+		B: If numIL is greater than numOU , iterate Output List.
+		C: If numIU is less than numOL, iterate Output List.
+		D: If numIL is greater than numOL AND numIU is less than numOU, do nothing and continue.
+		E: If numOL is greater than numIL AND numOU is less than numIU, replace Output Range with Input Range and continue.
+		F: If numIL is less than or equal to numOL AND numIU is less than or equal to numOU, replace Output Range with new Range of [numIL,numOU] and continue.
+		G: If numIL is greater than or equal to numOL and numIU is greater than or equal to numOU, replace Output Range with new Range of [numOL,numIU] and continue.
+		H: If there is no Input Range, end loop.
+(End Pseudo Code for request algorithm)
+
+Print out Output List.
+
+Tests:
+	Input String conversion:
+		Positive:
+			Empty
+			One Good Range without trailing space
+			Two Good Ranges with trailing space
+		Negative:
+			One Bad Range (no comma)
+			One Good Range and One Bad Range (no closing bracket)
+			One Good Range and One Bad Range (no opening bracket)
+	Range Object (POJO):
+		Cases:
+			Confirm for set and get of both numL and numU
+	Comparative Operation:
+		Positive:
+			One for each case described by the algorithm
+		Negative:
+			Null input for Input Range and Output Range and Both.
+			Non-Numbers
+	Output String (Integration Testing):
+		Good Input Strings
+			Cases:
+				null,
+				empty,
+				single range,
+				multiple ranges,
+				multiple overlapping ranges,
+				multiple overlapping ranges reversed,
+				mixed ranges {multi and single},
+				single numbers non-overlapping,
+				single number overlapping,
+				bad range,
+				bad and good ranges
+		Bad Input Strings
+			Cases:
+				Multiple garbage strings w/ similiar but not expected formats
+				
+Technologies:
+	JUnit 4
+	Eclipse Ide (eclipse-jee-oxygen-2-win32-x86_64)
+	Java 8 (jdk-8u161-windows-x64)
+	Windows 7
+	Notepad++ (For notes and quick design checks)
